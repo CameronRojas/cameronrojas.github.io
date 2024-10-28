@@ -24,6 +24,48 @@ CREATE TABLE Appointment(
     FOREIGN KEY (P_ID) REFERENCES Patient(patient_id)
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TABLE Billing (
+	P_ID INT NOT NULL,
+    D_ID INT,
+    charge_for VARCHAR(50),
+    total_charge INT,
+    charge_date DATETIME NOT NULL,
+    paid_off BOOL,
+    paid_total INT,
+    PRIMARY KEY (P_ID, charge_date),
+    FOREIGN KEY(P_ID) REFERENCES patient(patient_id)
+		ON DELETE RESTRICT ON UPDATE CASCADE, -- restrict the delete because need to keep track of billing
+	FOREIGN KEY (D_ID) REFERENCES Doctor(employee_ssn)
+		ON DELETE RESTRICT ON UPDATE CASCADE -- restrict because need to know how much to charge before the doctor is deleted
+);
+CREATE TABLE Payment( -- need to seperate payment and billing because patient can pay multiple times for the same charge and can have multiple charges paid at once
+	P_ID INT NOT NULL,
+    total_paid INT,
+    pay_date DATETIME NOT NULL, 
+    pay_towards DATETIME, -- ADD pay_towards that references specific bill
+    PRIMARY KEY (P_ID, pay_date),
+    FOREIGN KEY(P_ID) REFERENCES patient(patient_id)
+		ON DELETE RESTRICT ON UPDATE CASCADE, -- Restrict the delete because need to keep track of payments
+	FOREIGN KEY(P_ID, pay_towards) REFERENCES Billing(P_ID, charge_date)
+		ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE Referral(
+	primary_doc INT NOT NULL,
+    P_ID INT NOT NULL,
+    ref_date DATETIME NOT NULL,
+    experiation DATE NOT NULL,
+    specialist INT NOT NULL,
+    doc_appr BOOL,
+    used BOOL,
+    PRIMARY KEY (P_ID, ref_date),
+    FOREIGN KEY (primary_doc) REFERENCES Doctor(employee_ssn)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY (specialist) REFERENCES Doctor(employee_ssn)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY(P_ID) REFERENCES Patient(patient_id)
+		ON DELETE CASCADE ON UPDATE CASCADE
+);
 CREATE TABLE Medication (
     medicine VARCHAR(50) NOT NULL,
     start_date DATE,
@@ -153,53 +195,34 @@ CREATE TABLE Admin (
     FOREIGN KEY (office_id) REFERENCES Office(office_id)
 		ON DELETE SET NULL ON UPDATE CASCADE
 );
-CREATE TABLE Billing (
-	P_ID INT NOT NULL,
-    D_ID INT,
-    charge_for VARCHAR(50),
-    total_charge INT,
-    charge_date DATETIME NOT NULL,
-    paid_off BOOL,
-    paid_total INT,
-    PRIMARY KEY (P_ID, charge_date),
-    FOREIGN KEY(P_ID) REFERENCES patient(patient_id)
-		ON DELETE RESTRICT ON UPDATE CASCADE, -- restrict the delete because need to keep track of billing
-	FOREIGN KEY (D_ID) REFERENCES Doctor(employee_ssn)
-		ON DELETE RESTRICT ON UPDATE CASCADE -- restrict because need to know how much to charge before the doctor is deleted
-);
-CREATE TABLE Payment( -- need to seperate payment and billing because patient can pay multiple times for the same charge and can have multiple charges paid at once
-	P_ID INT NOT NULL,
-    total_paid INT,
-    pay_date DATETIME NOT NULL, 
-    pay_towards DATETIME, -- ADD pay_towards that references specific bill
-    PRIMARY KEY (P_ID, pay_date),
-    FOREIGN KEY(P_ID) REFERENCES patient(patient_id)
-		ON DELETE RESTRICT ON UPDATE CASCADE, -- Restrict the delete because need to keep track of payments
-	FOREIGN KEY(P_ID, pay_towards) REFERENCES Billing(P_ID, charge_date)
-		ON DELETE RESTRICT ON UPDATE CASCADE
+
+CREATE TABLE Users (
+    user_id INT,
+    username VARCHAR(50) PRIMARY KEY NOT NULL,
+    password VARCHAR(50) NOT NULL UNIQUE,
+    role enum('patient','doctor','nurse','receptionist','admin') NOT NULL
 );
 
-CREATE TABLE Referral(
-	primary_doc INT NOT NULL,
-    P_ID INT NOT NULL,
-    ref_date DATETIME NOT NULL,
-    experiation DATE NOT NULL,
-    specialist INT NOT NULL,
-    doc_appr BOOL,
-    used BOOL,
-    PRIMARY KEY (P_ID, ref_date),
-    FOREIGN KEY (primary_doc) REFERENCES Doctor(employee_ssn)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-	FOREIGN KEY (specialist) REFERENCES Doctor(employee_ssn)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-	FOREIGN KEY(P_ID) REFERENCES Patient(patient_id)
-		ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE TABLE Users (
-    user_id VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(50) NOT NULL,
-    role VARCHAR(20) NOT NULL
-);
+DELIMITER //
+
+CREATE PROCEDURE Login ( IN account_username VARCHAR(50), IN account_password VARCHAR(50), OUT login_status BOOL, OUT account_id INT)
+BEGIN
+    DECLARE account_exists INT;
+    DECLARE found_account INT;
+    
+    SELECT COUNT(*), U.user_id
+    INTO account_exists, found_account
+	FROM Users AS U
+    WHERE U.username = account_username AND U.password = account_password;
+    
+    IF account_exists > 0 THEN
+		SET login_status = TRUE;
+        SET account_id = found_account;
+    ELSE
+		SET login_status = FALSE;
+    END IF;
+END //
+DELIMITER ;
 
 CREATE VIEW Doctor_Patient_History_View
 AS SELECT	P.patient_id, P.first_name, P.last_name,

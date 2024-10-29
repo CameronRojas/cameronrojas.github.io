@@ -3,22 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
-    <link rel="stylesheet" href="../styles.css">
+    <title>Doctor Dashboard - Add Doctor</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/addDoctor.js" defer></script> <!-- Separate JavaScript file -->
+    <script type="text/javascript" src="https://form.jotform.com/jsform/243018434215044"></script>
 </head>
 <body>
     <div class="navbar">
-        <a href="admin.html">Admin Dashboard</a>
-        <a href="doctor.html">Doctor Dashboard</a>
-        <a href="nurse.html">Nurse Dashboard</a>
-        <a href="receptionist.html">Receptionist Dashboard</a>
-        <a href="patient.html">Patient Dashboard</a>
-        <a href="index.html">Logout</a>
+        <img src="logo.png" alt="Company Logo" class="logo">
+        <div class="navbar-right">
+            <i class="fas fa-bell notification-icon"></i>
+            <i class="fas fa-envelope message-icon"></i>
+            <img src="profile.jpg" alt="Profile Photo" class="profile-photo">
+            <span class="user-id">Admin123</span>
+        </div>
     </div>
-    <div class="dashboard">
-        <h1>Doctor Dashboard</h1>
-        <p>Welcome, Doctor! Here you can view patient information, schedule appointments, and access medical records.</p>
-        <button onclick="window.location.href='index.html'">Logout</button>
+    
+    <div class="container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+                <li><i class="fas fa-user-md"></i> Doctors</li>
+                <li><i class="fas fa-calendar"></i> Doctor Schedule</li>
+                <li><i class="fas fa-user"></i> Patients</li>
+                <li><i class="fas fa-calendar-check"></i> Appointments</li>
+                <li><i class="fas fa-users"></i> Employees</li>
+            </ul>
+        </div>
+        <!--
+        <div class="main-content">
+            <h2>Add Doctor</h2>
+            <form id="addDoctorForm">
+                <label for="employee_ssn">Employee SSN:</label>
+                <input type="text" id="employee_ssn" name="employee_ssn" maxlength="9" required>
+
+                <label for="admin_ssn">Admin SSN:</label>
+                <input type="text" id="admin_ssn" name="admin_ssn" maxlength="11">
+
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" maxlength="50" required>
+
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" maxlength="50" required>
+
+                <label for="hire_date">Hire Date (YYYY-MM-DD):</label>
+                <input type="date" id="hire_date" name="hire_date" required>
+
+                <label for="salary">Salary:</label>
+                <input type="number" id="salary" name="salary" required>
+
+                <label for="office_id">Office ID:</label>
+                <input type="number" id="office_id" name="office_id">
+
+                <label for="specialty">Specialty:</label>
+                <input type="text" id="specialty" name="specialty" maxlength="25">
+
+                <label for="specialist">Specialist:</label>
+                <select id="specialist" name="specialist">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+
+                <label for="cost">Cost:</label>
+                <input type="number" id="cost" name="cost">
+
+                <button type="submit">Add Doctor</button>
+            </form>
+        </div>
+    -->
     </div>
 </body>
 </html>

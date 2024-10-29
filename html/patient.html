@@ -15,7 +15,7 @@ O
         <a href="nurse.html">Nurse Dashboard</a>
         <a href="receptionist.html">Receptionist Dashboard</a>
         <a href="patient.html">Patient Dashboard</a>
-        <a href="index.html">Logout</a>
+        <a href="../index.html">Logout</a> <!-- Updated path for Logout -->
     </div>
     -->  
     <div class="sidebar">
@@ -30,52 +30,27 @@ O
         </ul>
       </div>
 
-    <div class="booking-container">
+        <!-- Medical History Section -->
+        <section id="medical-history">
+            <h2>Medical History</h2>
+            <div id="medicalHistoryContent"></div>
+        </section>
 
-        <div class="reason-selector">
-            <label for="appointment-reason">Select a Reason:</label>
-            <select id="appointment-reason">
-                <option value="" disabled selected>Select your reason</option>
-                <option value="General Checkup">General Checkup</option>
-                <option value="Follow-up">Follow-up</option>
-                <option value="Consultation">Consultation</option>
-                <option value="Specialist Visit">Specialist Visit</option>
-                <!-- Add more reasons as needed -->
-            </select>
-        </div>
+        <!-- Upcoming Appointments Section -->
+        <section id="upcoming-appointments">
+            <h2>Upcoming Appointments</h2>
+            <div id="appointmentContent"></div>
+        </section>
 
-        <div class="date-picker">
-            <label for="appointment-date">Select a Date:</label>
-            <input type="date" id="appointment-date">
-        </div>
+        <!-- Billing Information Section -->
+        <section id="billing-info">
+            <h2>Billing Information</h2>
+            <div id="billingContent"></div>
+        </section>
 
-        <div class="time-slots">
-            <div class="time-slot">
-                <span>7:00am</span>
-                <button class="book-btn" data-time="07:00:00" data-doctor-id="DOCTOR_ID" data-patient-id="PATIENT_ID" data-reason="General Checkup">Book Now</button>
-            </div>
-            <div class="time-slot">
-                <span>8:00am</span>
-                <button class="book-btn">Book Now</button>
-            </div>
-            <div class="time-slot">
-                <span>9:00am</span>
-                <button class="book-btn">Book Now</button>
-            </div>
-            <div class="time-slot">
-                <span>10:00am</span>
-                <button class="book-btn">Book Now</button>
-            </div>
-            <div class="time-slot">
-                <span>11:00am</span>
-                <button class="book-btn">Book Now</button>
-            </div>
-            <div class="time-slot">
-                <span>12:00pm</span>
-                <button class="book-btn">Book Now</button>
-            </div>
-        </div>
+        <button onclick="window.location.href='../index.html'">Logout</button> <!-- Updated path for Logout -->
     </div>
-    <script src="frontend/booking.js"></script>
+
+    <script src="../frontend/patient.js"></script>
 </body>
 </html>

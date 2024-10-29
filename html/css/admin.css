@@ -72,6 +72,7 @@ body {
     color: #2196f3;
 }
 
+
 /* Container for Sidebar and Main Content */
 .container {
     display: flex;
@@ -107,48 +108,18 @@ body {
     padding: 10px; /* Consistent padding to prevent shifting */
     border-radius: 5px; /* For a rounded hover effect */
     transition: background-color 0.3s ease, color 0.3s ease;
-    position: relative; /* Position for dropdown */
 }
 
-/* Dropdown Styles */
-.dropdown {
-    display: none; /* Hide dropdown by default */
-    position: absolute; /* Position it relative to the parent li */
-    left: 0; /* Align it to the right of the sidebar */
-    top: 100%; /* Align it to the top of the parent li */
-    background-color: #e53935; /* Match sidebar color */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px; /* Optional rounded corners */
-    z-index: 1; /* Make sure it's above other elements */
-}
-
-.sidebar-menu li:hover .dropdown {
-    display: block; /* Show dropdown on hover */
-}
-
-.dropdown li {
-    padding: 10px; /* Padding for dropdown items */
-    white-space: nowrap; /* Prevent text from wrapping */
-}
-
-.dropdown li a {
-    color: white; /* Text color for dropdown links */
-    text-decoration: none; /* Remove underline */
-    display: block; /* Block display for easy clicking */
-}
-
-.dropdown li:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Hover effect for dropdown items */
+.sidebar-menu li i {
+    margin-right: 10px;
+    font-size: 20px;
 }
 
 /* Hover effect */
 .sidebar-menu li:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    padding: 15px; /* Ensure padding does not cause shift */
+    padding: 15px;
 }
 
 /* Main Content Styles */
@@ -157,4 +128,22 @@ body {
     padding: 20px;
     flex-grow: 1;
     min-height: calc(100vh - 70px); /* Full height minus navbar */
+}
+
+/* Calendar and Chart Placeholder */
+.calendar, .chart {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.calendar {
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+.chart {
+    height: 200px;
 }

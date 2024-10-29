@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard - Add Doctor</title>
-    <link rel="stylesheet" href="css/allDoctors.css">
+    <link rel="stylesheet" href="css/doctor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="js/addDoctor.js" defer></script> <!-- Separate JavaScript file -->
     <script type="text/javascript" src="https://form.jotform.com/jsform/243018434215044"></script>
@@ -28,23 +28,44 @@
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
                 </li>
+
                 <li>
-                    <i class="fas fa-user-md"></i> Doctors
-                    <ul class="dropdown">
-                        <li><a href="allDoctors.html" id="view-doctors-btn">View Doctors</a></li>
-                    </ul>
+                    <a href="doctors.html">
+                        <i class="fas fa-user-md"></i> Dashboard
+                    </a>
                 </li>
-                <li><i class="fas fa-calendar"></i> Doctor Schedule</li>
-                <li><i class="fas fa-user"></i> Patients</li>
-                <li><i class="fas fa-calendar-check"></i> Appointments</li>
-                <li><i class="fas fa-users"></i> Employees</li>
+
+                <li>
+                    <a href = "#">
+                        <i class="fas fa-calendar"></i> Doctor Schedule
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"></a>
+                        <i class="fas fa-user"></i> Patients
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fas fa-calendar-check"></i> Appointments
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fas fa-users"></i> Employees
+                    </a>    
+                </li>
+                
             </ul>
         </div>
 
         <div class="main-content">
-            <h2>Doctors List</h2>
+            <h2>Doctors </h2>
             <div class="table-actions">
-                <button id="add-doctor-btn">Add Doctor</button>
+                <button onclick="window.location.href='addDoctor.html'" class="add-doctor-btn">Add Doctor</button>
                 <button id="delete-doctor-btn">Delete Doctor</button>
             </div>
             <table id="doctors-table">

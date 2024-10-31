@@ -3,10 +3,97 @@ CREATE TABLE Office (
     office_id INT PRIMARY KEY NOT NULL,
     location VARCHAR(128) NOT NULL,
     admin_id VARCHAR(9),
-    admin_start_date DATE,
-    FOREIGN KEY (admin_id) REFERENCES Admin(employee_ssn)
+    admin_start_date DATE
+);
+
+CREATE TABLE Admin (
+    employee_ssn VARCHAR(9) PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary INT,
+    office_id INT,
+    FOREIGN KEY (username) REFERENCES Users(username)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (office_id) REFERENCES Office(office_id)
 		ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+-- circular reference, between office and admin, therefore have to alter table after both are created
+ALTER TABLE Office
+ADD FOREIGN KEY (admin_id) REFERENCES Admin(employee_ssn)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+    
+CREATE TABLE Doctor (
+    employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    Admin_ssn VARCHAR(9),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary INT,
+    office_id INT,
+    specialty VARCHAR(25),
+    specialist BOOL,
+    cost INT,
+    FOREIGN KEY (office_id) REFERENCES Office(office_id)
+		ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (username) REFERENCES Users(username)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
+		ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE Nurse (
+    employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    Admin_ssn VARCHAR(9),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary INT,
+    office_id INT,
+    FOREIGN KEY (username) REFERENCES Users(username)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (office_id) REFERENCES Office(office_id)
+		ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
+		ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE Receptionist (
+	employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    Admin_ssn VARCHAR(9),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary INT,
+    office_id INT,
+    FOREIGN KEY (username) REFERENCES Users(username)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (office_id) REFERENCES Office(office_id)
+		ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
+		ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE Patient (
+    patient_id INT PRIMARY KEY NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    date_of_birth DATE,
+    address VARCHAR(128),
+    phone_number VARCHAR(10),
+    primary_id VARCHAR(9),
+    FOREIGN KEY (username) REFERENCES Users(username)
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (primary_id) REFERENCES Doctor(employee_ssn)
+		ON DELETE SET NULL ON UPDATE CASCADE
+);
+
 CREATE TABLE Appointment(
 	app_date DATE NOT NULL,
     P_ID INT NOT NULL,
@@ -129,86 +216,6 @@ CREATE TABLE Med_History(
     PRIMARY KEY (P_ID, last_visit),
     FOREIGN KEY(P_ID) REFERENCES Patient(patient_id)
 		ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE TABLE Doctor (
-    employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    Admin_ssn VARCHAR(9),
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    hire_date DATE,
-    salary INT,
-    office_id INT,
-    specialty VARCHAR(25),
-    specialist BOOL,
-    cost INT,
-    FOREIGN KEY (office_id) REFERENCES Office(office_id)
-		ON DELETE SET NULL ON UPDATE CASCADE,
-	FOREIGN KEY (username) REFERENCES Users(username)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
-		ON DELETE SET NULL ON UPDATE CASCADE
-);
-
-CREATE TABLE Nurse (
-    employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    Admin_ssn VARCHAR(9),
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    hire_date DATE,
-    salary INT,
-    office_id INT,
-    FOREIGN KEY (username) REFERENCES Users(username)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (office_id) REFERENCES Office(office_id)
-		ON DELETE SET NULL ON UPDATE CASCADE,
-    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
-		ON DELETE SET NULL ON UPDATE CASCADE
-);
-CREATE TABLE Receptionist (
-	employee_ssn VARCHAR(9) PRIMARY KEY NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    Admin_ssn VARCHAR(9),
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    hire_date DATE,
-    salary INT,
-    office_id INT,
-    FOREIGN KEY (username) REFERENCES Users(username)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (office_id) REFERENCES Office(office_id)
-		ON DELETE SET NULL ON UPDATE CASCADE,
-    FOREIGN KEY (Admin_ssn) REFERENCES Admin(employee_ssn)
-		ON DELETE SET NULL ON UPDATE CASCADE
-);
-CREATE TABLE Patient (
-    patient_id INT PRIMARY KEY NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    date_of_birth DATE,
-    address VARCHAR(128),
-    phone_number VARCHAR(10),
-    primary_id VARCHAR(9),
-    FOREIGN KEY (username) REFERENCES Users(username)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (primary_id) REFERENCES Doctor(employee_ssn)
-		ON DELETE SET NULL ON UPDATE CASCADE
-);
-
-CREATE TABLE Admin (
-    employee_ssn VARCHAR(9) PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    hire_date DATE,
-    salary INT,
-    office_id INT,
-    FOREIGN KEY (username) REFERENCES Users(username)
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (office_id) REFERENCES Office(office_id)
-		ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE Users (
@@ -349,6 +356,7 @@ BEGIN
     END IF;
 END; //
 
+-- THIS MIGHT NOT WORK SAYS ERRORS ON MY WORKBENCH
 DELIMITER //
 CREATE TRIGGER Appointment_Reminders
 -- The trigger will begin when an appointment is added
@@ -439,6 +447,8 @@ CREATE TABLE Logs (
 =======
 
 >>>>>>> Stashed changes
+-- THIS SECTION MIGHT NOT WORK, DELETE/COMMENT OUT IF NECESSARY
+
 -- 2 triggers will be the appointment reminder & referral trigger
 -- create view for the receptionist to see all of patients bills and payments, create view for doctor to see all patients med history combined.
 -- create view where receptionist can see current appts for specific doctor

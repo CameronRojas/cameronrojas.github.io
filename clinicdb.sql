@@ -5,7 +5,11 @@ CREATE TABLE Office (
     admin_id VARCHAR(9),
     admin_start_date DATE
 );
-
+CREATE TABLE Users (
+    username VARCHAR(50) PRIMARY KEY NOT NULL,
+    password VARCHAR(255) NOT NULL UNIQUE,
+    role enum('patient','doctor','nurse','receptionist','admin') NOT NULL
+);
 CREATE TABLE Admin (
     employee_ssn VARCHAR(9) PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -216,12 +220,6 @@ CREATE TABLE Med_History(
     PRIMARY KEY (P_ID, last_visit),
     FOREIGN KEY(P_ID) REFERENCES Patient(patient_id)
 		ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE Users (
-    username VARCHAR(50) PRIMARY KEY NOT NULL,
-    password VARCHAR(255) NOT NULL UNIQUE,
-    role enum('patient','doctor','nurse','receptionist','admin') NOT NULL
 );
 
 CREATE VIEW Doctor_Patient_History_View

@@ -21,3 +21,16 @@ app.use('/register', appointmentRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//doctor routes
+const doctorRoute = require('./routes/doctorRoute'); // Add doctor route
+
+app.use(express.json());
+app.use(express.static('public'));
+
+app.use('/login', loginRoute);
+app.use('/doctor', doctorRoute);  // Add doctor route to server
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

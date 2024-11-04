@@ -19,16 +19,16 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/register', appointmentRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 //doctor routes
-const doctorRoute = require('./routes/doctorRoute'); // Add doctor route
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const doctorActionsRoute = require('./routes/doctorActionsRoute');  // New routes
 
 app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/login', loginRoute);
-app.use('/doctor', doctorRoute);  // Add doctor route to server
+app.use('/doctor', doctorRoute);
+app.use('/doctorActions', doctorActionsRoute);  // Use new route
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

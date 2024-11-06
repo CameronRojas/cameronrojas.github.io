@@ -19,5 +19,18 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/register', appointmentRoutes);
 
-const PORT = process.env.PORT || 3000;
+//doctor routes
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const doctorActionsRoute = require('./routes/doctorActionsRoute');  // New routes
+
+app.use(express.json());
+app.use(express.static('public'));
+
+app.use('/login', loginRoute);
+app.use('/doctor', doctorRoute);
+app.use('/doctorActions', doctorActionsRoute);  // Use new route
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

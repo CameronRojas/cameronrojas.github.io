@@ -72,16 +72,17 @@ body {
     color: #2196f3;
 }
 
-
 /* Container for Sidebar and Main Content */
 .container {
     display: flex;
-    margin-top: 70px; /* Push content below the navbar */
+    margin-top: 70px; 
+    flex-direction: row;/* Push content below the navbar */
 }
 
 /* Sidebar Styles */
 .sidebar {
     width: 200px;
+    flex-shrink: 0;
     background-color: #e53935;
     color: white;
     min-height: calc(100vh - 70px); /* Adjust to avoid overlapping navbar */
@@ -108,18 +109,63 @@ body {
     padding: 10px; /* Consistent padding to prevent shifting */
     border-radius: 5px; /* For a rounded hover effect */
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative; /* Position for dropdown */
+}
+.sidebar-menu li a {
+    color: white; /* Change the text color to white or your preferred color */
+    text-decoration: none; /* Remove the underline */
+    flex-grow: 1; /* Allow the anchor to take up the full width */
+    display: block; /* Make the entire area clickable */
+}
+/*
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Change background on hover */
+}
+*/
+/* Optional: If you want to remove the blue color for visited links */
+.sidebar-menu li a:visited {
+    color: white; /* Keep the visited links the same color as regular links */
 }
 
-.sidebar-menu li i {
-    margin-right: 10px;
-    font-size: 20px;
+/* Dropdown Styles */
+.dropdown {
+    display: none; /* Hide dropdown by default */
+    position: absolute; /* Position it relative to the parent li */
+    left: 0; /* Align it to the right of the sidebar */
+    top: 100%; /* Align it to the top of the parent li */
+    background-color: #e53935; /* Match sidebar color */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px; /* Optional rounded corners */
+    z-index: 1; /* Make sure it's above other elements */
+}
+
+.sidebar-menu li:hover .dropdown {
+    display: block; /* Show dropdown on hover */
+}
+
+.dropdown li {
+    padding: 10px; /* Padding for dropdown items */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.dropdown li a {
+    color: white; /* Text color for dropdown links */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Block display for easy clicking */
+}
+
+.dropdown li:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover effect for dropdown items */
 }
 
 /* Hover effect */
 .sidebar-menu li:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    padding: 15px;
+    padding: 15px; /* Ensure padding does not cause shift */
 }
 
 /* Main Content Styles */
@@ -130,20 +176,228 @@ body {
     min-height: calc(100vh - 70px); /* Full height minus navbar */
 }
 
-/* Calendar and Chart Placeholder */
-.calendar, .chart {
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 10px;
+.table-actions {
+    display: flex;
+    justify-content: space-between; /* Align buttons to opposite sides */
     margin-bottom: 20px;
 }
 
-.calendar {
-    height: 300px;
-    margin-bottom: 30px;
+.table-actions button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #e53935; /* Primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.chart {
-    height: 200px;
+.table-actions button:hover {
+    background-color: #c62828; /* Darker shade on hover */
+}
+
+/* Appointments Page Styles */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+input[type="date"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 22px);
+    display: block; /* Ensure it appears on its own line */
+    margin-left: auto; /* Center the input */
+    margin-right: auto; /* Center the input */
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block; /* Ensure it appears on its own line */
+    margin-left: auto; /* Center the button */
+    margin-right: auto; /* Center the button */
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 100%; /* Full width of the container */
+    border-collapse: collapse; /* Remove space between table cells */
+    background-color: #ffffff; /* Table background color */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    margin-top: 20px; /* Space above the table */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Border for cells */
+    padding: 10px; /* Padding inside cells */
+    text-align: left; /* Align text to the left */
+}
+
+th {
+    background-color: #f2f2f2; /* Light gray background for headers */
+    font-weight: bold; /* Bold headers */
+}
+
+/* Form Styles */
+form {
+    max-width: 700px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row; /* Arrange items horizontally */
+    align-items: center; /* Vertically align items */
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    flex: 0 0 120px; /* Fixed width for labels */
+    text-align: right;
+    margin-right: 10px;
+}
+
+.form-group input {
+    flex: 1; /* Make input fields take up remaining space */
+}
+
+.form-group select {
+    appearance: none;   
+    /* Remove default select styles */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('path/to/your/dropdown-arrow.png'); /* Replace with your arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+.form-group button {
+    background-color: #e53935;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #c62828;
+}
+
+.schedule-container {
+    margin-left: 200px; /* Match the sidebar width */
+    padding: 20px;
+    width: calc(100% - 220px); /* Adjust the width to avoid overlap */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.appointments-table h3 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .schedule-container {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+.schedule-container .header {
+    display: flex;
+    justify-content: space-between; /* Aligns title on the left and controls on the right */
+    align-items: center; /* Center vertically */
+    background-color: #ffffff; /* Background color for the header */
+    padding: 15px 20px; /* Add padding for spacing */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin-bottom: 20px; /* Space below the header */
+}
+
+/* Header title */
+.schedule-container .header h2 {
+    font-size: 24px;
+    color: #333; /* Dark color for text */
+    margin: 0; /* Remove default margin */
+    font-weight: bold;
+}
+
+/* Header controls (e.g., buttons) */
+.schedule-container .header .controls {
+    display: flex;
+    gap: 10px; /* Space between control buttons */
+}
+
+.schedule-container .header .controls button {
+    padding: 8px 12px;
+    background-color: #e53935; /* Color for control buttons */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.schedule-container .header .controls button:hover {
+    background-color: #c62828; /* Darker color on hover */
 }
